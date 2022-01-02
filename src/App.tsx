@@ -4,12 +4,14 @@ import styles from './App.module.less';
 import { Layout } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import NavBar from './app/NavBar';
+import Posts from './features/posts/Posts';
 
 export default function App() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/posts" element={<Posts />} />
         <Route path="/users" element={<Users />} />
         <Route path="/about" element={<About />} />
       </Route>
