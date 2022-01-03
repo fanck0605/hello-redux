@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 import styles from './PostList.module.less';
+import { useAppDispatch } from '../../app/hooks';
+import { postAdded } from './postsSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 const layout = {
   labelCol: { span: 24 },
@@ -8,12 +11,16 @@ const layout = {
 };
 
 const AddPostForm: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [form] = Form.useForm();
   return (
     <Form
       {...layout}
       className={styles.addNewPost}
+      form={form}
       onFinish={(values) => {
-        console.log(values);
+        dispatch(postAdded({ id: nanoid(), ...values }));
+        form.resetFields();
       }}
     >
       <Form.Item name={'title'} label="Post Title">
