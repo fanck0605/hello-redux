@@ -19,7 +19,7 @@ const AddPostForm: React.FC = () => {
       className={styles.addNewPost}
       form={form}
       onFinish={(values) => {
-        dispatch(postAdded({ id: nanoid(), ...values }));
+        dispatch(postAdded(values));
         form.resetFields();
       }}
     >
