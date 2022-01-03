@@ -5,15 +5,19 @@ import { Layout } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import NavBar from './app/NavBar';
 import Posts from './features/posts/Posts';
+import SinglePostPage from './features/posts/SinglePostPage';
 
 export default function App() {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/about" element={<About />} />
+      <Route path="/" element={<AppLayout />}>
+        <Route index element={<Home />} />
+        <Route path="posts">
+          <Route index element={<Posts />} />
+          <Route path=":postId" element={<SinglePostPage />} />
+        </Route>
+        <Route path="users" element={<Users />} />
+        <Route path="about" element={<About />} />
       </Route>
     </Routes>
   );
