@@ -4,7 +4,7 @@ import styles from './App.module.less';
 import { Layout } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import NavBar from './app/NavBar';
-import Posts from './features/posts/Posts';
+import PostsPage from './features/posts/PostsPage';
 import SinglePostPage from './features/posts/SinglePostPage';
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
         <Route path="posts">
-          <Route index element={<Posts />} />
+          <Route index element={<PostsPage />} />
           <Route path=":postId" element={<SinglePostPage />} />
         </Route>
         <Route path="users" element={<Users />} />
