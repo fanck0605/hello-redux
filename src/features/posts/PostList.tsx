@@ -1,21 +1,42 @@
 import React, { ReactNode } from 'react';
 import { List } from 'antd';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
+import { Post, postEditing } from './postsSlice';
+import EditPostForm from './EditPostForm';
 
 const PostList: React.FC<{
   addNewPost: ReactNode;
 }> = ({ addNewPost }) => {
   const postList = useAppSelector((rootState) => rootState.posts);
 
-  const renderPost = (post: typeof postList[number]) => (
-    <List.Item key={post.id}>
-      <List.Item.Meta
-        title={<Link to={`/posts/${post.id}`}>{post.title}</Link>}
-      />
-      {post.content}
-    </List.Item>
-  );
+  const dispatch = useAppDispatch();
+
+  const renderPost = (post: Post) =>
+    post.isEditing ? (
+      <List.Item key={post.id}>
+        <EditPostForm post={post} />
+      </List.Item>
+    ) : (
+      <List.Item
+        key={post.id}
+        actions={[
+          <a
+            href="#"
+            onClick={() => {
+              dispatch(postEditing(post.id));
+            }}
+          >
+            Edit
+          </a>,
+        ]}
+      >
+        <List.Item.Meta
+          title={<Link to={`/posts/${post.id}`}>{post.title}</Link>}
+        />
+        {post.content}
+      </List.Item>
+    );
 
   return (
     <List
