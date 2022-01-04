@@ -4,12 +4,13 @@ interface Post {
   id: string;
   title: string;
   content: string;
+  userId: string;
   isEditing?: boolean;
 }
 
 const initialState: Post[] = [
-  { id: '1', title: 'First Post!', content: 'Hello!' },
-  { id: '2', title: 'Second Post', content: 'More text' },
+  { id: '1', title: 'First Post!', content: 'Hello!', userId: '1' },
+  { id: '2', title: 'Second Post', content: 'More text', userId: '2' },
 ];
 
 const postsSlice = createSlice({
@@ -20,12 +21,17 @@ const postsSlice = createSlice({
       reducer(state, action: PayloadAction<Post>) {
         state.push(action.payload);
       },
-      prepare({ title, content }: Pick<Post, 'title' | 'content'>) {
+      prepare({
+        title,
+        content,
+        userId,
+      }: Pick<Post, 'title' | 'content' | 'userId'>) {
         return {
           payload: {
             id: nanoid(),
             title,
             content,
+            userId,
           },
         };
       },
@@ -38,11 +44,12 @@ const postsSlice = createSlice({
       }
     },
     postUpdated(state, action: PayloadAction<typeof initialState[number]>) {
-      const { id, title, content } = action.payload;
+      const { id, title, content, userId } = action.payload;
       const existingPost = state.find((post) => post.id === id);
       if (existingPost) {
         existingPost.title = title;
         existingPost.content = content;
+        existingPost.userId = userId;
         existingPost.isEditing = false;
       }
     },

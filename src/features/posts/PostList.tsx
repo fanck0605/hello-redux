@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import { Post, postEditing } from './postsSlice';
 import EditPostForm from './EditPostForm';
+import PostAuthor from './PostAuthor';
 
 const PostList: React.FC<{
   addNewPost: ReactNode;
@@ -33,6 +34,7 @@ const PostList: React.FC<{
       >
         <List.Item.Meta
           title={<Link to={`/posts/${post.id}`}>{post.title}</Link>}
+          description={<PostAuthor userId={post.userId} />}
         />
         {post.content}
       </List.Item>
