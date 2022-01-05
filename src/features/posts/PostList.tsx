@@ -11,6 +11,10 @@ const PostList: React.FC<{
 }> = ({ addNewPost }) => {
   const postList = useAppSelector((rootState) => rootState.posts);
 
+  const sortedPostList = postList
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
+
   const dispatch = useAppDispatch();
 
   const renderPost = (post: Post) =>
@@ -44,7 +48,7 @@ const PostList: React.FC<{
     <List
       itemLayout="vertical"
       size="large"
-      dataSource={postList}
+      dataSource={sortedPostList}
       renderItem={renderPost}
       footer={addNewPost}
     />
