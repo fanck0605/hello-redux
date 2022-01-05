@@ -1,10 +1,21 @@
 import React, { ReactNode } from 'react';
-import { List } from 'antd';
+import { List, Space } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
-import { Post, postEditing } from './postsSlice';
+import { Post, postEditing, reactionAdded } from './postsSlice';
 import EditPostForm from './EditPostForm';
 import PostAuthor from './PostAuthor';
+import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+
+const IconText: React.FC<{
+  icon: ReactNode;
+  text: string;
+}> = ({ icon, text }) => (
+  <Space>
+    {icon}
+    {text}
+  </Space>
+);
 
 const PostList: React.FC<{
   addNewPost: ReactNode;
@@ -26,6 +37,27 @@ const PostList: React.FC<{
       <List.Item
         key={post.id}
         actions={[
+          <IconText
+            icon={
+              <StarOutlined
+                onClick={() =>
+                  dispatch(reactionAdded({ postId: post.id, reaction: 'star' }))
+                }
+              />
+            }
+            text={`${post.reactions.star ?? 0}`}
+          />,
+          <IconText
+            icon={
+              <LikeOutlined
+                onClick={() =>
+                  dispatch(reactionAdded({ postId: post.id, reaction: 'like' }))
+                }
+              />
+            }
+            text={`${post.reactions.like ?? 0}`}
+          />,
+          <IconText icon={<MessageOutlined />} text="0" />,
           <a
             href="#"
             onClick={() => {

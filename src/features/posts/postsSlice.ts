@@ -7,6 +7,10 @@ interface Post {
   title: string;
   content: string;
   userId: string;
+  reactions: {
+    like?: number;
+    star?: number;
+  };
   isEditing?: boolean;
 }
 
@@ -17,6 +21,7 @@ const initialState: Post[] = [
     title: 'First Post!',
     content: 'Hello!',
     userId: '1',
+    reactions: {},
   },
   {
     id: '2',
@@ -24,6 +29,7 @@ const initialState: Post[] = [
     title: 'Second Post',
     content: 'More text',
     userId: '2',
+    reactions: {},
   },
 ];
 
@@ -47,6 +53,7 @@ const postsSlice = createSlice({
             title,
             content,
             userId,
+            reactions: {},
           },
         };
       },
@@ -68,11 +75,27 @@ const postsSlice = createSlice({
         existingPost.isEditing = false;
       }
     },
+    reactionAdded(
+      state,
+      action: PayloadAction<{
+        postId: string;
+        reaction: keyof Post['reactions'];
+      }>
+    ) {
+      const { postId, reaction } = action.payload;
+
+      const existingPost = state.find((post) => post.id === postId);
+      if (existingPost) {
+        const lastCount = existingPost.reactions[reaction] ?? 0;
+        existingPost.reactions[reaction] = lastCount + 1;
+      }
+    },
   },
 });
 
 export type { Post };
 
-export const { postAdded, postUpdated, postEditing } = postsSlice.actions;
+export const { postAdded, postUpdated, postEditing, reactionAdded } =
+  postsSlice.actions;
 
 export default postsSlice.reducer;
